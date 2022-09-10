@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
-const catSchema = new Schema({
+const animalSchema = new Schema({
     name: String,
     isMale: {
         type: Boolean,
@@ -16,14 +16,25 @@ const catSchema = new Schema({
         default: 'Black',
         enum: ['Black', 'Gray', 'White', 'Orange', 'Pink']
     },
-    siblings: {type: [{type: Schema.Types.ObjectId, ref: 'Cat'}]},
+    siblings: {
+        type: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Animal'
+            }
+        ]
+    },
     aggressive: {
         type: Boolean,
         default: false
+    },
+    petType: {
+        type: String,
+        enum: ['Cat', 'Dog', 'Gangster Hamster', 'Parot', 'Snake']
     }
 }, {
     timestamps: true
 })
 
-const Cat = model('Cat', catSchema);
-module.exports = Cat;
+const Animal = model('Animal', animalSchema);
+module.exports = Animal;
