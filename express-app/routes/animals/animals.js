@@ -8,10 +8,15 @@ const Animal = require('../../models/Animal');
 
 // Create Route
 router.post('/create', (req, res, next) => {
+    console.log(req.body);
     const animalToCreate = {
-        ...req.body,
-        isMale: !!req.body.isMale,
-        isFemale: req.body.isMale ? false : !!req.body.isFemale
+        name: req.body.name,
+        species: req.body.species,
+        color: req.body.color,
+        sex: req.body.sex,
+        aggressive: !!req.body.aggressive,
+        vaccinated: !!req.body.vaccinated,
+        available: !!req.body.available
     }
     
     // console.log({body: req.body, animalToCreate});
@@ -58,5 +63,51 @@ router.get('/details/:animalId', (req, res, next) => {
         res.render('animals/details', animalFromDb);
     }).catch(err => {console.log({err})})
 })
+
+
+router.get('/edit/:animalId', (req, res, next) => {
+    
+    Animal.findById(req.params.animalId).then(animalFromDb => {
+        console.log({animalFromDb});
+
+        res.render('animals/edit', animalFromDb);
+    }).catch(err => {console.log({err})})
+})
+
+router.post('/update/:id', (req, res, next)=>{
+
+    Animal.findByIdAndUpdate(req.params.id, {
+        name: req.body.name,
+        species: req.body.species,
+        color: req.body.color,
+        sex: req.body.sex,
+        aggressive: !!req.body.aggressive,
+        vaccinated: !!req.body.vaccinated,
+        available: !!req.body.available
+    }).then((response)=>{
+
+        res.redirect('/animals/details/'+req.params.id);
+
+    }).catch((err)=>{
+        console.log(err);
+    })
+
+
+})
+
+router.post('/:id/delete', (req, res, next)=>{
+
+    Animal.findByIdAndRemove(req.params.id)
+    .then((response)=>{
+        res.redirect('/animals');
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+
+});
+
+
+
 
 module.exports = router;

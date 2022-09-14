@@ -4,20 +4,42 @@
 <form action="/animals/create" method="post">
 {{!-- the method of the form is what determines the request type that is being made (get/post) --}}
 
+
     <label for="animal-name-input">
         Animal Name: 
         <input id="animal-name-input" type="text" placeholder="Theon Greyjoy" name="name">
     </label>
     
-    <label for="isMale-checkbox">
-        Male: 
-        <input id="isMale-checkbox" type="checkbox" name="isMale" value="true">
+    <label>
+        Color: 
+        <input type="text" name="color">
     </label>
 
-    <label for="isFemal-checkbox">
-        Female: 
-        <input id="isFemal-checkbox" type="checkbox" name="isFemale" value="true">
+    <label>
+        Species: 
+        <input type="text" name="species">
     </label>
+
+    <label>
+        Sex: 
+        <input type="text" name="sex">
+    </label>
+
+    <label>
+        Vaccinated?
+        <input type="checkbox" name="vaccinated" value="true">
+    </label>
+
+    <label>
+        Aggressive? 
+        <input type="checkbox" name="aggressive" value="true">
+    </label>
+
+    <label>
+        Available? 
+        <input type="checkbox" name="available" value="true">
+    </label>
+
 
     <br>
     <button>Create</button>

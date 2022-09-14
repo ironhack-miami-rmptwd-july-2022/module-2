@@ -1,33 +1,33 @@
 const mongoose = require('mongoose');
 
 // =============  This Makes up Your Model (Schema) File ============
-// const { Schema, model } = mongoose;
+const { Schema, model } = mongoose;
 
-// const catSchema = new Schema({
-//     name: String,
-//     isMale: {
-//         type: Boolean,
-//         default: false,
-//     },
-//     isFemale: {
-//         type: Boolean,
-//         default: false
-//     },
-//     color: { 
-//         type: String,
-//         default: 'Black',
-//         enum: ['Black', 'Gray', 'White', 'Orange', 'Pink']
-//     },
-//     siblings: {type: [{type: Schema.Types.ObjectId, ref: 'Cat'}]}
-// }, {
-//     timestamps: true
-//     // timestamps: {
-//     //     createdAt: 'created_at',
-//     //     updatedAt: 'updated_at'
-//     // }
-// })
+const catSchema = new Schema({
+    name: String,
+    isMale: {
+        type: Boolean,
+        default: false,
+    },
+    isFemale: {
+        type: Boolean,
+        default: false
+    },
+    color: { 
+        type: String,
+        default: 'Black',
+        enum: ['Black', 'Gray', 'White', 'Orange', 'Pink']
+    },
+    siblings: {type: [{type: Schema.Types.ObjectId, ref: 'Cat'}]}
+}, {
+    timestamps: true
+    // timestamps: {
+    //     createdAt: 'created_at',
+    //     updatedAt: 'updated_at'
+    // }
+})
 
-// const Cat = model('Cat', catSchema);
+const Cat = model('Cat', catSchema);
 // // place export code here when we move this
 
 // the above code is now located in the models folder in the Cat.js file
@@ -87,14 +87,14 @@ const oneCat = {
 // });
 
 // *** ------------ this is how you """"Create" """a cat ------------- ***
-// Animal.create(myCatsArray).then(newlyCreatedCat => {
-//     console.log('Newly Created Cat: ', newlyCreatedCat);
-// }).then(() => {
-//     mongoose.disconnect();
-// }).catch(err => {
-//     mongoose.disconnect();
-//     throw err;
-// });
+Animal.create(myCatsArray).then(newlyCreatedCat => {
+    console.log('Newly Created Cat: ', newlyCreatedCat);
+}).then(() => {
+    mongoose.disconnect();
+}).catch(err => {
+    mongoose.disconnect();
+    throw err;
+});
 
 // *** ----------- this is how you find """"Read"""" a cat ---------- ***
 // this is to have everything from the collection return to you
@@ -146,17 +146,17 @@ const oneCat = {
 
 // ************    advanced stuff  ***************
 
-Animal.findById("631a7fd0dd4a3024884f5f26").then(soonToBeGoneAnimalFromDb => {
-    console.log({soonToBeGoneAnimalFromDb});
+// Animal.findById("631a7fd0dd4a3024884f5f26").then(soonToBeGoneAnimalFromDb => {
+//     console.log({soonToBeGoneAnimalFromDb});
 
-    Animal.findByIdAndRemove("631a7fd0dd4a3024884f5f26").then(() => {
-        console.log(`You Have Forcefully Removed ${soonToBeGoneAnimalFromDb.name} from your database. Good Job!!`)
-        mongoose.disconnect();
-    }).catch(err => {
-        mongoose.disconnect();
-        throw err;
-    })
-}).catch(err => {
-    mongoose.disconnect();
-    throw err;
-})
+//     Animal.findByIdAndRemove("631a7fd0dd4a3024884f5f26").then(() => {
+//         console.log(`You Have Forcefully Removed ${soonToBeGoneAnimalFromDb.name} from your database. Good Job!!`)
+//         mongoose.disconnect();
+//     }).catch(err => {
+//         mongoose.disconnect();
+//         throw err;
+//     })
+// }).catch(err => {
+//     mongoose.disconnect();
+//     throw err;
+// })

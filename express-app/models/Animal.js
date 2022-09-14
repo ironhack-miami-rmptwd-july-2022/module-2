@@ -2,19 +2,15 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const animalSchema = new Schema({
-    name: String,
-    isMale: {
-        type: Boolean,
-        default: false,
+    sex: { 
+        type: String,
+        enum: ['Male', 'Female']
     },
-    isFemale: {
-        type: Boolean,
-        default: false
+    species: {
+        type: String
     },
     color: { 
         type: String,
-        default: 'Black',
-        enum: ['Black', 'Gray', 'White', 'Orange', 'Pink']
     },
     siblings: {
         type: [
@@ -28,9 +24,15 @@ const animalSchema = new Schema({
         type: Boolean,
         default: false
     },
-    petType: {
-        type: String,
-        enum: ['Cat', 'Dog', 'Gangster Hamster', 'Parot', 'Snake']
+    vaccinated: {
+        type: Boolean,
+        default: false
+    },
+    available: {
+        type: Boolean
+    },
+    name: {
+        type: String
     }
 }, {
     timestamps: true
