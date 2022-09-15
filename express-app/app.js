@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
+// anytime we have a line that says const something = require('something')
+// if the something that is inside the parentheses is not a relative path to a file we created
+// then that means it is referencing a third party package. 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const PORT = 3000;
-// const axios = require('axios');
-// variables and declarations always at the top of the file
-
 
 // =========== connection to DB =============
 
@@ -24,10 +24,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 app.use(express.static('public'));
+// ^ this is the line that tells our app to look inside the public folder for all static assets like images or css files 
 // app.use(express.static('views'));
 app.set("views", __dirname + "/views");
+// ^ this line tells the app where to look for our views when we do res.render()
 app.set("view engine", "hbs");
-
+// ^ this line tells the app we are using hbs for our views
 // ===================================
 
 
