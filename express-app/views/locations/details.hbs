@@ -16,9 +16,11 @@ Address: {{location.address}}
 
 <div>
 
-{{name}} - {{species}}
+  
 
-<a href="/animals/details/{{id}}">See Details</a>
+{{this.name}} - {{this.species}}
+
+<a href="/animals/details/{{this.id}}">See Details</a>
 
 </div>
 {{/each}}

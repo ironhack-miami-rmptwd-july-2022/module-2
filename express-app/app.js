@@ -46,6 +46,7 @@ app.set("view engine", "hbs");
 app.use('/', require('./routes/index'));
 app.use('/animals', require('./routes/animals'));
 app.use('/locations', require('./routes/locations'));
+app.use('/', require('./routes/authroutes'));
 // this is how we link our routes files to our app
 
 

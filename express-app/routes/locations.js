@@ -86,7 +86,7 @@ router.post('/:locationID/addAnimals', (req, res, next)=>{
 
 
 router.get('/:locationID', (req, res, next)=>{
-    Location.findById(req.params.locationID).populate('animals')
+    Location.findById(req.params.locationID).populate("animals")
     .then((theLocation)=>{
         res.render('locations/details', {location: theLocation})
     })
