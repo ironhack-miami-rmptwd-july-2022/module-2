@@ -21,6 +21,11 @@ mongoose
 // ========== MIDDLEWARE =============
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+// bodyparser is the package that gives you access to req.body when you send a form on a post route 
+// these 2 lines just activate the bodyparser middleware 
+// middleware is a fancy work for function or group of functions that run after one thing, and before another
+// in this case all of our middlewares run after the user makes a request to the server 
+// and before we return an html resource in response to that request
 
 
 app.use(express.static('public'));
