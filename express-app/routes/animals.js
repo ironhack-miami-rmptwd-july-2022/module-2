@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Animal = require('../../models/Animal');
+const Animal = require('../models/Animal');
 
 // *** A Form with a post method will return the info from the form in the req.body
 // *** A Form with a get method will return the info from the form in the req.query

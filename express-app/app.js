@@ -39,7 +39,9 @@ app.set("view engine", "hbs");
 // this is what determines the prefix to your routes within the file that you are requiring. If you add "/blah" then all the routes in your index file would have to start with /blah before any route defined. ie: you create a route in index.js that has an endpoint of '/home' but you prefixed '/blah' in the app.js to require index.js, your end result of the route would then be www.domainName.com/blah/home
 //       |
 app.use('/', require('./routes/index'));
-app.use('/animals', require('./routes/animals/animals'));
+app.use('/animals', require('./routes/animals'));
+app.use('/locations', require('./routes/locations'));
+
 
 // ===========================================
 

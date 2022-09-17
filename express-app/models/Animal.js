@@ -17,6 +17,7 @@ const animalSchema = new Schema({
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Animal'
+                // the ref makes it so .populate knows which model to look at
             }
         ]
     },
@@ -39,4 +40,6 @@ const animalSchema = new Schema({
 })
 
 const Animal = model('Animal', animalSchema);
+// by putting 'Animal' as the first arugment here 
+// it tells mongo DB to create a collection called animals
 module.exports = Animal;

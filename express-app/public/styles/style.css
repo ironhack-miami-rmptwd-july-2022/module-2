@@ -3,3 +3,8 @@ body {
     margin: 0;
     background-color: olivedrab;
 }
+
+.fullPage{
+    min-height: 90vh;
+}
+
