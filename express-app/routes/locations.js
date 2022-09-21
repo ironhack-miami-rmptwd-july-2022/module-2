@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Location = require('../models/Location');
 const Animal = require('../models/Animal');
-
+const User = require('../models/User');
 
 
 router.get('/',(req, res, next)=>{
@@ -17,7 +17,11 @@ router.get('/',(req, res, next)=>{
 
 
 router.get('/create', (req, res, next)=>{
-    res.render('locations/create');
+    if(!req.session.currentlyLoggedIn){
+        res.redirect('/');
+    } else {
+        res.render('locations/create');
+    }
 });
 // its not the same route even though it looks like the same endpoint 
 // because one is get and one is post
@@ -25,9 +29,16 @@ router.post('/create', (req, res, next)=>{
     let {address, zip, state, city, apartmentNumber} = req.body;
     if(!apartmentNumber) apartmentNumber = null;
     Location.create({address,apartmentNumber,zip,state,city})
-    .then(()=>{
-        res.redirect('/locations')
-    })
+    .then((newLocation)=>{
+        User.findByIdAndUpdate(req.session.currentlyLoggedIn._id, {
+            location: newLocation
+        }).then((updatedUser)=>{
+            console.log(updatedUser);
+            res.redirect('/locations')
+        }).catch((err)=>{
+            console.log(err)
+        })
+        })
     .catch((err)=>{
         console.log(err);
     })

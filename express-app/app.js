@@ -5,6 +5,8 @@ const app = express();
 // then that means it is referencing a third party package. 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const PORT = 3000;
 
 // =========== connection to DB =============
@@ -37,6 +39,28 @@ app.set("view engine", "hbs");
 // ^ this line tells the app we are using hbs for our views
 // ===================================
 
+
+app.use(
+  session({
+    secret: '123secret',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 600000
+    }, // ADDED code below !!!
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://localhost/expressApp'
+    })
+  })
+);
+
+
+app.use(function (req, res, next) {
+  // im making a template variable called theUser and imequalling it to 
+  // the user object in the session
+  res.locals.theUser = req.session.currentlyLoggedIn;
+  next();
+})
 
 
 // ============== ROUTES =====================

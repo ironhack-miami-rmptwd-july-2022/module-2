@@ -25,6 +25,54 @@ router.post('/signup', (req, res, next)=>{
 });
 
 
+router.get('/login', (req, res, next)=>{
+  res.render('auth/login');
+})
+
+router.post('/login', (req, res, next) => {
+  if (req.body.username === '' || req.body.password === '') {
+    res.redirect('/login');
+    return;
+  }
+ 
+  User.findOne({ username: req.body.username })
+    .then(resultFromDB => {
+      if (!resultFromDB) {
+        res.redirect('/login');
+        return;
+      } else if (bcryptjs.compareSync(req.body.password, resultFromDB.password)) {
+        console.log("found user", resultFromDB);
+        req.session.currentlyLoggedIn = resultFromDB;
+        console.log(req.session);
+        res.redirect('/');
+        return;
+      } else {
+        res.redirect('/login');
+      }
+    })
+    .catch(error => console.log(error));
+});
+
+
+router.get('/profile', (req, res, next)=>{
+  User.findById(req.session.currentlyLoggedIn._id).populate('location')
+  .then((theUser)=>{
+    console.log(theUser);
+    res.render('auth/profile', {theUser: theUser})
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+})
+
+
+router.post('/logout', (req, res, next)=>{
+  req.session.destroy(err => {
+    if (err) console.log(err);
+    res.redirect('/');
+  });
+})
+
 
 
 module.exports = router;

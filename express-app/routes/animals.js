@@ -34,11 +34,13 @@ router.post('/create', (req, res, next) => {
 
 // Read Route
 router.get('/', (req, res, next) => {
-    console.log({query: req.query});
+
+    console.log("current session");
+    console.log(req.session);
 
     Animal.find()
     .then((animalsFromDb) => {
-        console.log({animalsFromDb});
+        // console.log({animalsFromDb});
 
         data = {
             animals: animalsFromDb

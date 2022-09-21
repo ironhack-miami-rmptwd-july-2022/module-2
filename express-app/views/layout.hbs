@@ -13,6 +13,17 @@
         <a href="/animals">Animals</a>
         <a href="/locations">Locations</a>
         <a href="/signup">Sign Up</a>
+        {{#unless theUser}}
+        <a href="/login">Login</a>
+        {{/unless}}
+        <br><br>
+        {{#if theUser}}
+        <form action="/logout" method="post">
+        <button>Logout</button>
+        </form>
+        {{/if}}
+        
+
     </nav>
 
 
