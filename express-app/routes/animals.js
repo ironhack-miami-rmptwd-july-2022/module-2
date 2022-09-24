@@ -32,6 +32,7 @@ router.post('/create', (req, res, next) => {
                 $push: {animals: newlyCreatedAnimal}
             })
             .then((updatedLocation)=>{
+                req.flash('success', 'successfully saved new animal');
                 // *** res.redirect has have the arguement being the same as you would pass to an a tag in the href.
                 res.redirect(`/animals/details/${newlyCreatedAnimal._id}`);
             })

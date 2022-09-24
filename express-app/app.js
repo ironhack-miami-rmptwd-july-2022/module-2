@@ -9,7 +9,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const PORT = 3000;
 const path = require('path');
-
+const cookieParser = require("cookie-parser");
+var flash = require('connect-flash');
+require('dotenv').config();
 
 // =========== connection to DB =============
 
@@ -56,11 +58,17 @@ app.use(
   })
 );
 
+app.use(cookieParser());
+app.use(flash());
+
+
 
 app.use(function (req, res, next) {
   // im making a template variable called theUser and imequalling it to 
   // the user object in the session
   res.locals.theUser = req.session.currentlyLoggedIn;
+  res.locals.errorMessage = req.flash("error");
+  res.locals.successMessage = req.flash("success");
   next();
 })
 

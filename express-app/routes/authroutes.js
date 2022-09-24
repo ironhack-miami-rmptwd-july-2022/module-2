@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User")
 const bcryptjs = require('bcryptjs');
+const nodemailer = require("nodemailer");
+
 
 
 router.get('/signup', (req, res, next) => {
@@ -14,23 +16,53 @@ router.post('/signup', (req, res, next)=>{
     .genSalt(saltRounds)
     .then(salt => bcryptjs.hash(req.body.password, salt))
     .then(hashedPassword => {
-      console.log(`Password hash: ${hashedPassword}`);
       User.create({
         username: req.body.username,
         password: hashedPassword,
+        email: req.body.email,
     })
-      res.redirect('/')
+    .then((newUser)=>{
+
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        auth: {
+          user: 'nick.borbe@ironhack.com',
+          pass: process.env.GMAILPASS
+        }
+      });
+      
+      var mailOptions = {
+        from: 'ironadooptionsapp@ihadoptions.com',
+        to: newUser.email,
+        subject: 'automated email sent with nodemailer',
+        html: `<p>Thank you for signing up. Your username is ${newUser.username}</p>`
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+          req.flash('success', 'Successfully Signed Up');
+          req.session.currentlyLoggedIn = newUser;
+          res.redirect('/profile');
+        }
+      });  
+      })
     })
     .catch(error => next(error));
 });
 
 
 router.get('/login', (req, res, next)=>{
+  
   res.render('auth/login');
 })
 
 router.post('/login', (req, res, next) => {
   if (req.body.username === '' || req.body.password === '') {
+    req.flash('error', 'Please make sure to fill in both fields');
     res.redirect('/login');
     return;
   }
@@ -38,15 +70,16 @@ router.post('/login', (req, res, next) => {
   User.findOne({ username: req.body.username })
     .then(resultFromDB => {
       if (!resultFromDB) {
+        req.flash('error', 'could not find that username')
         res.redirect('/login');
         return;
       } else if (bcryptjs.compareSync(req.body.password, resultFromDB.password)) {
-        console.log("found user", resultFromDB);
         req.session.currentlyLoggedIn = resultFromDB;
-        console.log(req.session);
+        req.flash('success', 'Successfully Logged In as ' + resultFromDB.username);
         res.redirect('/profile');
         return;
       } else {
+        req.flash('error', 'this username/password combination could not be authenticated. please try again');
         res.redirect('/login');
       }
     })

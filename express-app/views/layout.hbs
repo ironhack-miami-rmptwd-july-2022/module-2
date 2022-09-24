@@ -30,6 +30,17 @@
     </nav>
 
 
+    {{#if errorMessage}}
+    <div class="error-div">
+        {{errorMessage}}
+    </div>
+    {{/if}}
+    
+    {{#if successMessage}}
+    <div class="success-div">
+        {{successMessage}}
+    </div>
+    {{/if}}
 
     <div class="fullPage">
     {{{body}}}

@@ -33,6 +33,7 @@ router.post('/create', (req, res, next)=>{
         User.findByIdAndUpdate(req.session.currentlyLoggedIn._id, {
             location: newLocation
         }).then((updatedUser)=>{
+            req.flash('success', 'new location successfully created');
             console.log(updatedUser);
             res.redirect('/profile')
         }).catch((err)=>{
