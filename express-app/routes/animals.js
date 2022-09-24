@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Animal = require('../models/Animal');
+const User = require('../models/User');
+const Location = require("../models/Location");
 
 // *** A Form with a post method will return the info from the form in the req.body
 // *** A Form with a get method will return the info from the form in the req.query
@@ -8,12 +10,12 @@ const Animal = require('../models/Animal');
 
 // Create Route
 router.post('/create', (req, res, next) => {
-    console.log(req.body);
+    let theAnimalSex = req.body.sex[0].toUpperCase() + req.body.sex.substr(1);
     const animalToCreate = {
         name: req.body.name,
         species: req.body.species,
         color: req.body.color,
-        sex: req.body.sex,
+        sex: theAnimalSex,
         aggressive: !!req.body.aggressive,
         vaccinated: !!req.body.vaccinated,
         available: !!req.body.available
@@ -23,27 +25,38 @@ router.post('/create', (req, res, next) => {
 
     Animal.create(animalToCreate)
     .then(newlyCreatedAnimal => {
-        // console.log({newlyCreatedAnimal})
-
-        // *** res.redirect has have the arguement being the same as you would pass to an a tag in the href.
-        res.redirect(`/animals/details/${newlyCreatedAnimal._id}`);
+        User.findById(req.session.currentlyLoggedIn._id)
+        .then((theUserObject)=>{
+            console.log(theUserObject);
+            Location.findByIdAndUpdate(theUserObject.location, {
+                $push: {animals: newlyCreatedAnimal}
+            })
+            .then((updatedLocation)=>{
+                // *** res.redirect has have the arguement being the same as you would pass to an a tag in the href.
+                res.redirect(`/animals/details/${newlyCreatedAnimal._id}`);
+            })
+        })
     }).catch(err => {
         console.log({err});
     })
 })
 
 // Read Route
-router.get('/', (req, res, next) => {
+router.get('/available/:sort', (req, res, next) => {
+    let sortBy;
+    if(req.params.sort === "recent"){
+        sortBy = -1;
+    } else {
+        sortBy = 1;
+    }
 
-    console.log("current session");
-    console.log(req.session);
-
-    Animal.find()
+    Animal.find().sort({createdAt: sortBy})
     .then((animalsFromDb) => {
         // console.log({animalsFromDb});
 
         data = {
-            animals: animalsFromDb
+            animals: animalsFromDb,
+            recent: req.params.sort === "recent"? true : false
         }
 
         // *** When rendering a file. Remember views is static so start from the views as if it was the root folder, and path to the file.hbs you want to display. (No relativ path needed just start with file or folder name)
@@ -52,6 +65,7 @@ router.get('/', (req, res, next) => {
     })
     .catch(err => {
         console.log({err});
+        next(err);
     })
 })
 

@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const PORT = 3000;
+const path = require('path');
+
 
 // =========== connection to DB =============
 
@@ -63,6 +65,9 @@ app.use(function (req, res, next) {
 })
 
 
+
+app.use(express.static(path.join(__dirname, "..", "public")));
+
 // ============== ROUTES =====================
 
 // this is what determines the prefix to your routes within the file that you are requiring. If you add "/blah" then all the routes in your index file would have to start with /blah before any route defined. ie: you create a route in index.js that has an endpoint of '/home' but you prefixed '/blah' in the app.js to require index.js, your end result of the route would then be www.domainName.com/blah/home
@@ -76,7 +81,21 @@ app.use('/', require('./routes/authroutes'));
 
 // ===========================================
 
+  app.use((req, res, next) => {
+    // this middleware runs whenever requested page is not available
+    res.status(404).render("not-found-page");
+  });
 
+  app.use((err, req, res, next) => {
+    // whenever you call next(err), this middleware will handle the error
+    // always logs the error
+    console.error("ERROR", req.method, req.path, err);
+
+    // only render if the error ocurred before sending the response
+    if (!res.headersSent) {
+      res.status(500).render("error-page", {theError: err});
+    }
+  });
 
 // remember to listen at bottom of the app js
 app.listen(PORT || 3000, () => console.log(`Listening on port ${PORT}`));

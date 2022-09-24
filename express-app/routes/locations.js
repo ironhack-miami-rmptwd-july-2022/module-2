@@ -34,7 +34,7 @@ router.post('/create', (req, res, next)=>{
             location: newLocation
         }).then((updatedUser)=>{
             console.log(updatedUser);
-            res.redirect('/locations')
+            res.redirect('/profile')
         }).catch((err)=>{
             console.log(err)
         })
