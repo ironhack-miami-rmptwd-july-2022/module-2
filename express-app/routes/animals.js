@@ -3,13 +3,14 @@ const router = express.Router();
 const Animal = require('../models/Animal');
 const User = require('../models/User');
 const Location = require("../models/Location");
+const uploadMiddleware = require('../config/cloudinarystuff');
 
 // *** A Form with a post method will return the info from the form in the req.body
 // *** A Form with a get method will return the info from the form in the req.query
 
 
 // Create Route
-router.post('/create', (req, res, next) => {
+router.post('/create', uploadMiddleware.single("animalIMG"), (req, res, next) => {
     let theAnimalSex = req.body.sex[0].toUpperCase() + req.body.sex.substr(1);
     const animalToCreate = {
         name: req.body.name,
@@ -18,9 +19,10 @@ router.post('/create', (req, res, next) => {
         sex: theAnimalSex,
         aggressive: !!req.body.aggressive,
         vaccinated: !!req.body.vaccinated,
-        available: !!req.body.available
+        available: !!req.body.available,
+        image: req.file.path
     }
-    
+
     // console.log({body: req.body, animalToCreate});
 
     Animal.create(animalToCreate)

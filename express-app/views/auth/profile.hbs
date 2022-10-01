@@ -27,41 +27,48 @@
 
 {{#if theUser.location}}
 <h3>Add an adoption listing to your location</h3>
-<form action="/animals/create" method="post">
-    <label for="animal-name-input">
+<form action="/animals/create" method="post" enctype="multipart/form-data">
+    <div>
         Animal Name: 
         <input id="animal-name-input" type="text" placeholder="Theon Greyjoy" name="name">
-    </label>
+    </div>
+
+    <div>
+        Image:
+        <input type="file" name="animalIMG">
+    </div>
+
     
-    <label>
+    <div>
         Color: 
         <input type="text" name="color">
-    </label>
+    </div>
 
-    <label>
+    <div>
         Species: 
         <input type="text" name="species">
-    </label>
+    </div>
 
-    <label>
+    <div>
         Sex: 
         <input type="text" name="sex">
-    </label>
+    </div>
 
-    <label>
+
+    <div>
         Vaccinated?
         <input type="checkbox" name="vaccinated" value="true">
-    </label>
+    </div>
 
-    <label>
+    <div>
         Aggressive? 
         <input type="checkbox" name="aggressive" value="true">
-    </label>
+    </div>
 
-    <label>
+    <div>
         Available? 
         <input type="checkbox" name="available" value="true">
-    </label>
+    </div>
 
 
     <br>

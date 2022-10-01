@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const animalSchema = new Schema({
+    image: {
+        type: String
+    },
     sex: { 
         type: String,
         enum: ['Male', 'Female']
