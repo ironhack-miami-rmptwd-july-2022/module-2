@@ -1,0 +1,27 @@
+<a href="/animals/edit/{{id}}">Edit This Animal's Profile</a>
+
+<div>
+    <img width="400px" src="{{image}}">
+
+    <h3>Name: {{name}}</h3>
+    <h3>Species: {{species}}</h3>
+    <h3>Sex: {{sex}}</h3>
+    <h3>Color: {{color}}</h3>
+
+    <h4>
+    Aggressive:  {{#if aggressive}} yes {{else}} no {{/if}}
+    </h4>
+
+    <h4>
+    Vaccinated: {{#if vaccinated}} yes {{else}} no {{/if}}
+    </h4>
+
+    <h4>
+    Available: {{#if available}} yes {{else}} no {{/if}}
+    </h4>
+
+</div>
+
+<form action="/animals/{{id}}/delete" method="post">
+    <button>Delete This Animal Listing <br> (After Adoption)</button>
+</form>

@@ -1,0 +1,26 @@
+
+<h2>Location Details Page</h2>
+
+<h4>
+Address: {{location.address}}
+</h4>
+
+<h5>
+    {{location.city}}, {{location.state}} - {{location.zip}}
+</h5>
+
+
+<br>
+<h3>Animals At This Location:</h3>
+{{#each location.animals}}
+
+<div>
+
+  
+
+{{this.name}} - {{this.species}}
+
+<a href="/animals/details/{{this.id}}">See Details</a>
+
+</div>
+{{/each}}

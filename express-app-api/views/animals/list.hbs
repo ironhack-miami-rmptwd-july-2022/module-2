@@ -1,0 +1,25 @@
+
+<br>
+<br>
+<hr>
+
+<h2>Available Animals</h2>
+<br> 
+{{#if recent}}
+<a href="/animals/available/notRecent">
+    <button type="button">Sort By Longest Tenured</button>
+</a>
+{{else}}
+<a href="/animals/available/recent">
+    <button type="button">Sort By Most Recent</button>
+</a>
+{{/if}}
+
+<div class="animals__container">
+    {{#each animals}}
+        <div class="animals__box">
+            <h3>Name: {{this.name}}</h3>
+            <a href="/animals/details/{{this._id}}">See More Details Here</a>
+        </div>
+    {{/each}}
+</div>

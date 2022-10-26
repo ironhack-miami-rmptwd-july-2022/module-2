@@ -1,0 +1,114 @@
+<h1>{{theUser.username}}'s' Profile</h1>
+
+<h4>Username: {{theUser.username}}</h4>
+
+{{#if theUser.location}}
+
+<h4>Want to change your password? 
+    <a href="/change-password">click here</a>
+</h4>
+
+
+<div class="user-location-tile">
+<h5>This users locations with animals:</h5>
+
+{{theUser.location.address}}
+{{theUser.location.city}}
+{{theUser.location.state}}
+{{theUser.location.zip}}
+
+<a href="/locations/{{theUser.location._id}}">See This location</a>
+<br><br>
+</div>
+{{/if}}
+
+<br><br><br>
+
+
+{{#if theUser.location}}
+<h3>Add an adoption listing to your location</h3>
+<form action="/animals/create" method="post" enctype="multipart/form-data">
+    <div>
+        Animal Name: 
+        <input id="animal-name-input" type="text" placeholder="Theon Greyjoy" name="name">
+    </div>
+
+    <div>
+        Image:
+        <input type="file" name="animalIMG">
+    </div>
+
+    
+    <div>
+        Color: 
+        <input type="text" name="color">
+    </div>
+
+    <div>
+        Species: 
+        <input type="text" name="species">
+    </div>
+
+    <div>
+        Sex: 
+        <input type="text" name="sex">
+    </div>
+
+
+    <div>
+        Vaccinated?
+        <input type="checkbox" name="vaccinated" value="true">
+    </div>
+
+    <div>
+        Aggressive? 
+        <input type="checkbox" name="aggressive" value="true">
+    </div>
+
+    <div>
+        Available? 
+        <input type="checkbox" name="available" value="true">
+    </div>
+
+
+    <br>
+    <button>Create</button>
+</form>
+{{else}}
+
+
+<h2>Add Your Location to the Platform in order to add animals for adoption</h2>
+
+<form action="/locations/create" method="post">
+
+<label for="address">
+    Address
+    <input type="text" id="address" name="address">
+</label>
+
+<label for="apartmentNumber">
+    Apartment Number
+    <input type="number" id="apartmentNumber" name="apartmentNumber">
+</label>
+
+<label for="zip">
+    Zip
+    <input type="number" id="zip" name="zip">
+</label>
+
+<label for="city">
+    City
+    <input type="text" id="city" name="city">
+</label>
+
+<label for="state">
+    State
+    <input type="text" id="state" name="state">
+</label>
+
+<button type="submit">Save</button>
+
+</form>
+
+
+{{/if}}
